@@ -1,4 +1,4 @@
-# Merchant Payment Management System
+# Merchant Payment  System
 
 A production-style REST API built with Java 21 and Spring Boot for managing merchants, KYC, wallets/accounts and payments.
 
