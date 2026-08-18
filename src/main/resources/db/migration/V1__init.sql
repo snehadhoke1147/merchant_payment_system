@@ -1,0 +1,6 @@
+CREATE TABLE app_users (id UUID PRIMARY KEY,email VARCHAR(255) NOT NULL UNIQUE,password VARCHAR(255) NOT NULL,role VARCHAR(20) NOT NULL,created_at TIMESTAMPTZ NOT NULL);
+CREATE TABLE merchants (id UUID PRIMARY KEY,merchant_code VARCHAR(50) NOT NULL UNIQUE,business_name VARCHAR(255) NOT NULL,email VARCHAR(255) NOT NULL UNIQUE,phone VARCHAR(50) NOT NULL,active BOOLEAN NOT NULL,created_at TIMESTAMPTZ NOT NULL);
+CREATE TABLE kyc_records (id UUID PRIMARY KEY,merchant_id UUID NOT NULL UNIQUE,document_type VARCHAR(50) NOT NULL,document_number VARCHAR(100) NOT NULL,status VARCHAR(20) NOT NULL,submitted_at TIMESTAMPTZ NOT NULL,CONSTRAINT fk_kyc_merchant FOREIGN KEY(merchant_id) REFERENCES merchants(id));
+CREATE TABLE accounts (id UUID PRIMARY KEY,merchant_id UUID NOT NULL UNIQUE,balance NUMERIC(19,2) NOT NULL,currency VARCHAR(3) NOT NULL,created_at TIMESTAMPTZ NOT NULL,version BIGINT NOT NULL,CONSTRAINT fk_account_merchant FOREIGN KEY(merchant_id) REFERENCES merchants(id));
+CREATE TABLE transactions (id UUID PRIMARY KEY,merchant_id UUID NOT NULL,amount NUMERIC(19,2) NOT NULL,currency VARCHAR(3) NOT NULL,idempotency_key VARCHAR(255) NOT NULL UNIQUE,status VARCHAR(20) NOT NULL,created_at TIMESTAMPTZ NOT NULL,CONSTRAINT fk_txn_merchant FOREIGN KEY(merchant_id) REFERENCES merchants(id));
+CREATE INDEX idx_txn_merchant_created ON transactions(merchant_id,created_at);

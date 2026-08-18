@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: merchant-payment-system
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/merchant_payment}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:sneha@339}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: ${PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-key-to-a-long-random-value-32chars}
+    expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
